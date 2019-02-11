@@ -7,6 +7,7 @@ This file creates your application.
 
 from app import app
 from flask import render_template, request, redirect, url_for, flash
+import datetime
 
 
 ###
@@ -17,12 +18,28 @@ from flask import render_template, request, redirect, url_for, flash
 def home():
     """Render website's home page."""
     return render_template('home.html')
+    
+@app.route('/profile')
+def profile():
+    userData = {
+        'profile_url': url_for('static', filename='images/user_profile_img.jpg'),
+        'fullname': 'Daniel Geddes',
+        'username': 'Geddez',
+        'location': 'Portmore, Jamaica',
+        'join_date': 'Febuary, 2019',
+        's_bio': "I am just Studenting.",
+        'no_of_posts': '1',
+        'no_of_followers': '57',
+        'no_following': '46'
+    }
+
+    return render_template('profile.html', userdata = userData);
 
 
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+    return render_template('about.html', name="Daniel Geddez")
 
 
 ###
@@ -52,6 +69,11 @@ def add_header(response):
 def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
+    
+def format_date_joined():
+    now = datetime.datetime.now()
+    date_joined = datetime.date(2019, 2, 10)
+    return "Joined "  + date_joined.strftime("%B, %Y") 
 
 
 if __name__ == '__main__':
